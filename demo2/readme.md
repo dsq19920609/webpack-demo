@@ -21,7 +21,7 @@ cssnano: 压缩
 
 autoprefixer: 根据browserslist给css添加兼容前缀
 
-另一种压缩css的方法: optimize-css-assets-webpack-plugin: 压缩css
+另一种压缩css的方法: optimize-css-assets-webpack-plugin: 用于压缩和优化CSS 的处理器，默认是 cssnano 
 
 * 开发环境：style-loader内联样式，更新速度更快，便于调试
 

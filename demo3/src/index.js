@@ -1,4 +1,9 @@
-import './theme.less';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { treeshakingFunc } from './test';
+import App from './app';
+
+treeshakingFunc();
 
 // 入口文件：开启代码热更新, 只用于开发环境
 if (process.env.NODE_ENV === 'development') {
@@ -7,14 +12,4 @@ if (process.env.NODE_ENV === 'development') {
   }  
 }
 
-const divE = document.createElement('div');
-divE.classList.add('box');
-
-divE.addEventListener('click', () => {
-  // import按需加载
-  import('./test').then(({ alert }) => {
-    alert();
-  });
-});
-
-document.body.appendChild(divE);
+ReactDOM.render(<App/>, document.getElementById('root'))

@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "cross-env NODE_ENV=development webpack-dev-server",
     "build": "cross-env NODE_ENV=production webpack",
-    "clean": "rimraf node_modules dist"
+    "dll": "webpack --config webpack.config.dll.js",
+    "clean": "rimraf dist"
   },
   "keywords": [],
   "author": "",
@@ -16,12 +17,19 @@
     "@babel/core": "^7.15.0",
     "@babel/plugin-transform-runtime": "^7.15.0",
     "@babel/preset-env": "^7.15.0",
+    "@babel/preset-react": "^7.14.5",
+    "@types/lodash": "^4.14.175",
+    "@types/react": "^17.0.24",
+    "@types/react-dom": "^17.0.9",
     "autoprefixer": "^10.3.6",
     "babel-loader": "^8.2.2",
+    "cache-loader": "^4.1.0",
     "copy-webpack-plugin": "^9.0.1",
     "css-loader": "^6.3.0",
     "cssnano": "^5.0.8",
     "file-loader": "^6.2.0",
+    "happypack": "^5.0.1",
+    "hard-source-webpack-plugin": "^0.13.1",
     "html-webpack-plugin": "^5.3.2",
     "html-withimg-loader": "^0.1.16",
     "less": "^4.1.1",
@@ -33,16 +41,21 @@
     "terser-webpack-plugin": "^5.2.4",
     "url-loader": "^4.1.1",
     "webpack": "^5.51.1",
+    "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "^4.8.0",
     "webpack-dev-server": "^4.3.0"
   },
   "dependencies": {
     "@babel/runtime": "^7.15.4",
-    "@babel/runtime-corejs3": "^7.15.3"
+    "@babel/runtime-corejs3": "^7.15.3",
+    "lodash": "^4.17.21",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   },
   "browserslist": [
     ">0.2%",
     "not dead",
     "not op_mini all"
-  ]
+  ],
+  "peerDependencies": {}
 }
