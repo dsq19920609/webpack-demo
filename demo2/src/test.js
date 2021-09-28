@@ -1,5 +1,3 @@
-import test from './test';
-
 export const callback = (fn, delay) => {
   let timer = null;
   return function () {
@@ -10,6 +8,10 @@ export const callback = (fn, delay) => {
     }, delay);
   }
 }
+
+export const alert = () => {
+  window.alert('import5');
+};
 
 export const treeshakingFunc = () => {
   console.log('i am treeshakingFunc');

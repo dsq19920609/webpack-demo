@@ -1,6 +1,8 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -15,13 +17,15 @@ module.exports = {
     path: path.join(__dirname, 'dist'),
     publicPath: isProd ? '/': '/', // 生产环境可以直接配置成CDN的路径，这样html引入的js和css路径会添加CDN地址前缀
     clean: true, // webpack5  替代之前的clean-webpack-plugin
+    chunkFilename: isProd ? 'js/[id].[contenthash:8].js' : 'js/[id].[hash:8].js' // 用于import动态导入的js文件
   },
   resolve: {
     alias: {
       '@/src': path.resolve(__dirname, 'src')
     },
-    modules: [path.join(__dirname, 'node_modules'), path.join(__dirname, 'src')],
-    extensions: ['.js', '.jsx', '.ts', '.tsx']
+    modules: [path.join(__dirname, 'node_modules')], // 去哪找第三方模块
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    mainFileds: ['main', 'browser'] // 用于指定加载第三方模块时，入口文件从package.json的那个字段找, 一般为main
   },
   module: {
     rules: [
@@ -31,7 +35,7 @@ module.exports = {
         use: [
           {
             loader: 'babel-loader',
-            options: {
+            options: { // babel的配置可以写到配置文件babel.config.js文件中
               presets: ['@babel/preset-env'],
               plugins: [
                 [ "@babel/plugin-transform-runtime", {
@@ -64,7 +68,7 @@ module.exports = {
             options: {
               limit: 10240, // 小于10kb的图片以base64的格式内联到样式中
               name: '[name].[hash:8].[ext]', // 输出后图片名称
-              outputPath: 'assets', // 输出目录
+              outputPath: 'assets/images', // 输出目录
               esModule:false // 注意将esModule:false, 否则打包会异常
             }
           }
@@ -97,7 +101,16 @@ module.exports = {
         collapseWhitespace: true,
         removeComments: true
       }
-    })
+    }),
+    new CopyWebpackPlugin({
+      patterns: [ // 可以配置多个拷贝任务
+        {
+          from: 'src/assets/font/',
+          to: path.resolve(__dirname, 'dist/assets/font/')
+        }
+      ]
+    }),
+    new webpack.HotModuleReplacementPlugin() //热更新插件
   ],
   devServer: {
     port: '3000', //默认是8080
