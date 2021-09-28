@@ -3,10 +3,15 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const SpeedMeasureWebpackPlugin = require('speed-measure-webpack-plugin');
+const TerserWebpackPlugin = require('terser-webpack-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
 
-module.exports = {
+// 打包速度分析
+const smp = new SpeedMeasureWebpackPlugin({});
+
+const config = {
   mode: isProd ? 'production': 'development',
   entry: {
     'main': './src/index.js'
@@ -52,7 +57,7 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           { // 开发环境：style-loader内联样式，速度更快 生产环境：样式单独打包便于浏览器文件并行加载
-            loader: isProd ? MiniCssExtractPlugin.loader : 'style-loader', 
+            loader: !isProd ? MiniCssExtractPlugin.loader : 'style-loader', 
             options: isProd ?  {} : {}
           },
           'css-loader',
@@ -90,6 +95,21 @@ module.exports = {
       }
     ]
   },
+  optimization: {
+    minimizer: [
+      new TerserWebpackPlugin({ // 代码压缩
+        extractComments: false,
+        // 是否使用多线程进行编译 --- 默认值就是true
+        // 可以设置为number，即手动指定设置多少进程进行打包
+        // 也可以设置为true，此时parallel的值就是cpus.length - 1
+        parallel: true,
+        terserOptions: {
+          // 在这里对terser进行手动配置
+          // 在这里的配置会覆盖默认 terser 中的配置
+        }
+      })
+    ]
+  },
   plugins: [
     new MiniCssExtractPlugin({
       filename: 'css/[name].[hash:8].css', // 开发环境用hash，生产环境用contenthash
@@ -120,3 +140,5 @@ module.exports = {
     hot: true
   }
 }
+
+module.exports = smp.wrap(config);

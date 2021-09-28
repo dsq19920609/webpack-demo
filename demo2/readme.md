@@ -21,6 +21,8 @@ cssnano: 压缩
 
 autoprefixer: 根据browserslist给css添加兼容前缀
 
+另一种压缩css的方法: optimize-css-assets-webpack-plugin: 压缩css
+
 * 开发环境：style-loader内联样式，更新速度更快，便于调试
 
 * 生产环境：样式单独打包便于浏览器文件并行加载，同时可以做缓存
@@ -57,6 +59,24 @@ new MiniCssExtractPlugin({
   ]
 }
 ~~~
+
+~~~js
+// webpack.config.js
+const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin')
+
+module.exports = {
+  optimization: {
+    minimizer: [
+      new OptimizeCssAssetsWebpackPlugin() // 推荐的配置方式
+    ]
+  },
+  plugins: [
+    // new OptimizeCssAssetsWebpackPlugin()  // 也可以使用的配置方式
+  ]
+}
+~~~
+
+另外一种
 
 #### 3、动态导入 import
 
