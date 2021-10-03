@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "cross-env NODE_ENV=development webpack-dev-server",
-    "build": "cross-env NODE_ENV=production webpack",
+    "build": "rimraf dist && cross-env NODE_ENV=production webpack",
     "clean": "rimraf node_modules dist"
   },
   "keywords": [],
@@ -29,6 +29,7 @@
     "mini-css-extract-plugin": "^2.3.0",
     "postcss-loader": "^6.1.1",
     "style-loader": "^3.3.0",
+    "terser-webpack-plugin": "^5.2.4",
     "url-loader": "^4.1.1",
     "webpack": "^5.51.1",
     "webpack-cli": "^4.8.0",
@@ -42,5 +43,6 @@
     ">0.2%",
     "not dead",
     "not op_mini all"
-  ]
+  ],
+  "sideEffects": ["*.less"]
 }

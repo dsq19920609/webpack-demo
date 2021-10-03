@@ -1,15 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { treeshakingFunc } from './test';
-import App from './app';
+import { isEmpty } from 'lodash';
+// import { AppContainer } from 'react-hot-loader';
+import App from './pages/App';
 
-treeshakingFunc();
+console.log(isEmpty(''));
 
-// 入口文件：开启代码热更新, 只用于开发环境
-if (process.env.NODE_ENV === 'development') {
-  if(module && module.hot) {
-    module.hot.accept()
-  }  
-}
+ReactDOM.render(<App/>, document.getElementById('root'));
 
-ReactDOM.render(<App/>, document.getElementById('root'))
+// hot-react-loader 处理hmr
+// if (module.hot) {
+//   module.hot.accept(function () {
+//     ReactDOM.render(
+//       (<AppContainer>
+//         <App/>
+//       </AppContainer>)
+//       , document.getElementById('root'));
+//   });
+// }

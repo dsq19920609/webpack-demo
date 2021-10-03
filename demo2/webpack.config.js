@@ -2,12 +2,13 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserWebpackPlugin = require('terser-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = {
-  mode: isProd ? 'production': 'development',
+  mode: isProd ? 'none': 'none',
   entry: {
     'main': './src/index.js'
   },
@@ -36,7 +37,11 @@ module.exports = {
           {
             loader: 'babel-loader',
             options: { // babel的配置可以写到配置文件babel.config.js文件中
-              presets: ['@babel/preset-env'],
+              presets: [
+                ['@babel/preset-env', {
+                  modules: false
+                }]
+              ],
               plugins: [
                 [ "@babel/plugin-transform-runtime", {
                     "corejs": 3
@@ -89,6 +94,12 @@ module.exports = {
         use: 'html-withimg-loader'
       }
     ]
+  },
+  optimization: {
+    usedExports: true,
+    // minimizer: [
+    //   new TerserWebpackPlugin({})
+    // ]
   },
   plugins: [
     new MiniCssExtractPlugin({

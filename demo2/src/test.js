@@ -9,7 +9,7 @@ export const callback = (fn, delay) => {
   }
 }
 
-export const alert = () => {
+export const alertffff = () => {
   window.alert('import5');
 };
 

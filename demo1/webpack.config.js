@@ -9,7 +9,7 @@ module.exports = {
   entry: {
     'main': './src/index.js'
   },
-  devtool: isProd ? false : 'eval-cheap-module-source-map',
+  devtool: !isProd ? false : 'eval-cheap-module-source-map',
   output: {
     filename: isProd ? 'js/[name].[contenthash:8].js' : 'js/[name].[hash:8].js',
     path: path.join(__dirname, 'dist'),

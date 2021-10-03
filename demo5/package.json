@@ -1,0 +1,21 @@
+{
+  "name": "demo5",
+  "version": "1.0.0",
+  "description": "webpack < 4 中使用的CommonChunkPlugin来抽离公共代码演示",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^16.10.2",
+    "clean-webpack-plugin": "^4.0.0",
+    "webpack": "4.27.1",
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.3.0"
+  }
+}
