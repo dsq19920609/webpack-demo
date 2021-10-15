@@ -27,7 +27,7 @@ const config = {
     'main': './src/index.js',
     // 'reacthot': 'react-hot-loader/patch'
   },
-  devtool: isProd ? false : 'eval-cheap-module-source-map',
+  devtool: isProd ? false : 'source-map',
   output: {
     filename: isProd ? 'js/[name].[contenthash:8].js' : 'js/[name].[hash:8].js',
     path: path.join(__dirname, 'dist'),
@@ -127,71 +127,71 @@ const config = {
   //     root: '_'// 如果我们的库在浏览器中使用，需要提供一个全局的变量‘_’，等价于 var _ = (window._) or (_);
   //   }
   // },
-  optimization: {
-    minimize: true,
-    minimizer: [
-      new TerserWebpackPlugin({ // 代码压缩
-        extractComments: false,
-        // 是否使用多线程进行编译 --- 默认值就是true
-        // 可以设置为number，即手动指定设置多少进程进行打包
-        // 也可以设置为true，此时parallel的值就是cpus.length - 1
-        parallel: true,
-        terserOptions: {
-          // 在这里对terser进行手动配置
-          // 在这里的配置会覆盖默认 terser 中的配置
-        }
-      }),
-      // new CssMinimizerWebpackPlugin({ // webpack5中压缩css
-      //   // 注意这个地方不能配置成源码的位置，因此less经过loader处理后再交给minimizer压缩的，所以可以不配置
-      //   // include: './src/**/*.less',
-      //   parallel: true, // 设置为true，则默认为 os.cpus().length - 1 多进程并发执行，提升构建速度
-      //   minify: CssMinimizerWebpackPlugin.cssnanoMinify, // 默认使用cssnano 可以自定义函数
-      //   minimizerOptions: { // 这里可以配置cssnano的配置 https://www.cssnano.cn/docs/config-file
+  // optimization: {
+  //   minimize: true,
+  //   minimizer: [
+  //     new TerserWebpackPlugin({ // 代码压缩
+  //       extractComments: false,
+  //       // 是否使用多线程进行编译 --- 默认值就是true
+  //       // 可以设置为number，即手动指定设置多少进程进行打包
+  //       // 也可以设置为true，此时parallel的值就是cpus.length - 1
+  //       parallel: true,
+  //       terserOptions: {
+  //         // 在这里对terser进行手动配置
+  //         // 在这里的配置会覆盖默认 terser 中的配置
+  //       }
+  //     }),
+  //     // new CssMinimizerWebpackPlugin({ // webpack5中压缩css
+  //     //   // 注意这个地方不能配置成源码的位置，因此less经过loader处理后再交给minimizer压缩的，所以可以不配置
+  //     //   // include: './src/**/*.less',
+  //     //   parallel: true, // 设置为true，则默认为 os.cpus().length - 1 多进程并发执行，提升构建速度
+  //     //   minify: CssMinimizerWebpackPlugin.cssnanoMinify, // 默认使用cssnano 可以自定义函数
+  //     //   minimizerOptions: { // 这里可以配置cssnano的配置 https://www.cssnano.cn/docs/config-file
 
-      //   }
-      // })
-    ],
-    splitChunks: {// 分割代码块
-      cacheGroups: {
-        lodash: {  // lodash通过cdn去加载
-          name: 'lodash', // 单独将 lodash 拆包
-          priority: 5, // 权重需大于`vendor`
-          test: /lodash/,
-          chunks: 'initial',
-          minSize: 0,
-          minChunks: 1 // 重复引入了几次
-        },
-        vendor: {
-          // 第三方依赖 可以将react,react-dom 打包到verdor中
-          priority: 1, // 设置优先级，首先抽离第三方模块
-          name: 'vendor',
-          test: /node_modules/,
-          chunks: 'initial',
-          minSize: 0,
-          minChunks: 1 // 最少引入了1次
-        },
-        // 缓存组
-        common: {
-          // 公共模块
-          chunks: 'initial',
-          name: 'common',
-          minSize: 0, // 大小超过100个字节
-          minChunks: 3 // 最少引入了3次
-        }
-      }
-    },
-    runtimeChunk: {
-      name: 'runtime'
-    }
-  },
+  //     //   }
+  //     // })
+  //   ],
+  //   splitChunks: {// 分割代码块
+  //     cacheGroups: {
+  //       lodash: {  // lodash通过cdn去加载
+  //         name: 'lodash', // 单独将 lodash 拆包
+  //         priority: 5, // 权重需大于`vendor`
+  //         test: /lodash/,
+  //         chunks: 'initial',
+  //         minSize: 0,
+  //         minChunks: 1 // 重复引入了几次
+  //       },
+  //       vendor: {
+  //         // 第三方依赖 可以将react,react-dom 打包到verdor中
+  //         priority: 1, // 设置优先级，首先抽离第三方模块
+  //         name: 'vendor',
+  //         test: /node_modules/,
+  //         chunks: 'initial',
+  //         minSize: 0,
+  //         minChunks: 1 // 最少引入了1次
+  //       },
+  //       // 缓存组
+  //       common: {
+  //         // 公共模块
+  //         chunks: 'initial',
+  //         name: 'common',
+  //         minSize: 0, // 大小超过100个字节
+  //         minChunks: 3 // 最少引入了3次
+  //       }
+  //     }
+  //   },
+  //   runtimeChunk: {
+  //     name: 'runtime'
+  //   }
+  // },
   // externals: ['react', 'react-dom', 'lodash'], // react、react-dom、lodash 一般开发库的时候作为peerDependencies
   plugins: [
     // new webpack.DllReferencePlugin({  // 动态链接库 可将react、react-dom打包
     //   manifest: path.resolve(__dirname, 'dist', 'dll', 'manifest.json')
     // }),
-    new EslintWebpackPlugin({ // eslint校验 - 也可以在npm script中执行eslint校验
+    // new EslintWebpackPlugin({ // eslint校验 - 也可以在npm script中执行eslint校验
 
-    }),
+    // }),
     new MiniCssExtractPlugin({
       filename: isProd ? 'css/[name].[contenthash:6].css' : '[name].css',
       chunkFilename: isProd ? 'css/[name].[contenthash:6].css' : '[name].css',
@@ -214,14 +214,14 @@ const config = {
         removeComments: true
       }
     }),
-    new CopyWebpackPlugin({
-      patterns: [ // 可以配置多个拷贝任务
-        {
-          from: 'src/assets/font/',
-          to: path.resolve(__dirname, 'dist/assets/font/')
-        }
-      ]
-    }),
+    // new CopyWebpackPlugin({
+    //   patterns: [ // 可以配置多个拷贝任务
+    //     {
+    //       from: 'src/assets/font/',
+    //       to: path.resolve(__dirname, 'dist/assets/font/')
+    //     }
+    //   ]
+    // }),
     // new webpack.HotModuleReplacementPlugin(), // 热更新插件
     // new BundleAnalyzerPlugin() // 项目构建的打包结果分析，可以看到每个文件里面包含的模块
   ],
@@ -230,6 +230,7 @@ const config = {
     compress: true, // 是否启用 gzip 压缩
     proxy: {},
     open: true,
+    historyApiFallback: true, // 对于404响应总是返回index.html，因为是单页应用，部署到nginx时也要处理页面刷新404的问题
     // hot: true,
     // liveReload: true,
   }
